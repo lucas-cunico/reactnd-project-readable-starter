@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import './App.css';
 import {Route} from 'react-router-dom';
-import Categories from './components/Categories';
+import Categories from './../components/Categories';
 
 class App extends Component {
   render() {
