@@ -6,7 +6,9 @@ export default (state = initialState, payload) => {
     switch (payload.type) {
         case SET_CATEGORIES:
             const {categories} = payload;
-            return {...state, ...categories};
+            return {...state, ...{categories}};
+        default:
+            return state;
     }
-    return state;
+
 }

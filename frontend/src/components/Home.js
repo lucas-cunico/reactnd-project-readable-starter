@@ -7,16 +7,18 @@ class Home extends Component {
         this.props.findAllCategories();
     }
     render() {
+        const {categories} = this.props;
+        console.log(categories);
         return <React.Fragment>
-            hello
+            {categories.map(categorie => categorie.name)}
         </React.Fragment>
     }
 }
 
 function mapState(state) {
+    const {categories} = state.categorie;
     return {
-        // desafioReducer: state.desafioReducer,
-        // userInfo: state.userInfo
+        categories
     }
 }
 
