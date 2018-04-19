@@ -1,30 +1,58 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {findAll} from '../actions/categorie';
+import {findAll} from '../actions/category';
+import * as postActions from '../actions/post';
+import CategoryCard from './CategoryCard';
+import PostCard from './PostCard';
+import PostForm from './PostForm';
 
 class Home extends Component {
-    componentDidMount(){
+    componentDidMount() {
         this.props.findAllCategories();
+        this.props.findAllPosts();
+    }
+    onClickCategory(e){
+        this.props.findAllByCategory(e);
     }
     render() {
-        const {categories} = this.props;
-        console.log(categories);
-        return <React.Fragment>
-            {categories.map(categorie => categorie.name)}
-        </React.Fragment>
+        const {categories, posts} = this.props;
+        return <div className="">
+            <nav className="navbar navbar-light bg-light">
+            </nav>
+            <div className="container">
+                <div className="row">
+                    {categories.map((category) => {
+                        return <CategoryCard category={category} key={category.name} onClick={this.onClickCategory.bind(this)}/>
+                    })}
+                </div>
+                <div className="row">
+                    <PostForm/>
+                </div>
+                <div className="row">
+                {posts.map((post) => {
+                    return <PostCard post={post} key={post.id}/>
+                })}
+                </div>
+            </div>
+        </div>
     }
 }
 
 function mapState(state) {
-    const {categories} = state.categorie;
+    const {categories} = state.category;
+    const {posts} = state.post;
     return {
-        categories
+        categories,
+        posts
     }
 }
 
-function mapDispatch (dispatch) {
+function mapDispatch(dispatch) {
     return {
-        findAllCategories: () => dispatch(findAll())
+        findAllCategories: () => dispatch(findAll()),
+        findAllPosts: () => dispatch(postActions.findAll()),
+        findAllByCategory: (categoryName) => dispatch(postActions.findAllByCategory(categoryName))
     }
 }
+
 export default connect(mapState, mapDispatch)(Home);

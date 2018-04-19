@@ -1,5 +1,7 @@
-import * as categorie from './categorie';
+import * as category from './category';
+import * as post from './post';
 
 module.exports = {
-    categorie
+    category,
+    post
 };

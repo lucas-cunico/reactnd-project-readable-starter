@@ -1,7 +1,9 @@
 import { combineReducers } from 'redux'
 
-import categorie from './categorie';
+import category from './category';
+import post from './post';
 
 export default combineReducers({
-    categorie
+    category,
+    post
 });
