@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import CategorySelect from './CategorySelect';
+import * as postActions  from '../actions/post';
+import serializeForm from 'form-serialize';
 
-export default class PostForm extends Component {
+class PostForm extends Component {
     state = {
         visible: 'd-none'
     };
@@ -14,6 +17,11 @@ export default class PostForm extends Component {
             this.setState({visible: 'd-none'})
         }
     }
+    onSubmit(e){
+        e.preventDefault();
+        const post = serializeForm(e.target, {hash: true});
+        this.props.saveOrUpdate(post);
+    }
 
     render() {
         return <div className="col-sm-12 padding-card">
@@ -22,23 +30,25 @@ export default class PostForm extends Component {
                     Post
                 </div>
                 <div className={`card-body ${this.state.visible}`}>
-                    <form>
+                    <form onSubmit={this.onSubmit.bind(this)}>
                         <div className="form-group">
-                            <label htmlFor="exampleInputEmail1">Email address</label>
-                            <input type="email" className="form-control" id="exampleInputEmail1"
-                                   aria-describedby="emailHelp" placeholder="Enter email"/>
-                            <small id="emailHelp" className="form-text text-muted">We'll never share your email with
-                                anyone else.
-                            </small>
+                            <label htmlFor="title">Title</label>
+                            <input type="text" className="form-control" id="title" name="title"
+                                   aria-describedby="title" placeholder="Title" required/>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="exampleInputPassword1">Password</label>
-                            <input type="password" className="form-control" id="exampleInputPassword1"
-                                   placeholder="Password"/>
+                            <label htmlFor="body">Body</label>
+                            <input type="body" className="form-control" id="body" name="body"
+                                   aria-describedby="body" placeholder="Body" required/>
                         </div>
-                        <div className="form-check">
-                            <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
-                            <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
+                        <div className="form-group">
+                            <label htmlFor="author">Author</label>
+                            <input type="author" className="form-control" id="author" name="author"
+                                   aria-describedby="author" placeholder="Author" required/>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="category">Category</label>
+                            <CategorySelect id='category' name='category'/>
                         </div>
                         <button type="submit" className="btn btn-primary">Submit</button>
                     </form>
@@ -47,3 +57,16 @@ export default class PostForm extends Component {
         </div>
     }
 }
+
+function mapState(state) {
+    return {
+    }
+}
+
+function mapDispatch(dispatch) {
+    return {
+        saveOrUpdate: (post) => dispatch(postActions.saveOrUpdate(post))
+    }
+}
+
+export default connect(mapState, mapDispatch)(PostForm);

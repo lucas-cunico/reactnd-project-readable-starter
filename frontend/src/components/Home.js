@@ -29,7 +29,7 @@ class Home extends Component {
                     <PostForm/>
                 </div>
                 <div className="row">
-                {posts.map((post) => {
+                {posts.sort((a , b) => a.timestamp < b.timestamp ).map((post) => {
                     return <PostCard post={post} key={post.id}/>
                 })}
                 </div>
