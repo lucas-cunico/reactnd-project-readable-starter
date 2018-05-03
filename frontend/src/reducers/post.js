@@ -1,4 +1,4 @@
-import {SET_POSTS, SET_POST} from '../actions/post';
+import {SET_POSTS, SET_POST, DELETE_POST} from '../actions/post';
 const initialState = {
     posts: []
 };
@@ -21,6 +21,9 @@ export default (state = initialState, payload) => {
                 newPosts.push(post)
             }
             return {...state, ...{posts: newPosts}};
+        case DELETE_POST:
+            const {id} = payload;
+            return {...state, ...{posts: state.posts.filter(e => e.id !== id)}};
         default:
             return state;
     }

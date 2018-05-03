@@ -9,7 +9,12 @@ import PostForm from './PostForm';
 class Home extends Component {
     componentDidMount() {
         this.props.findAllCategories();
-        this.props.findAllPosts();
+        const {category} = this.props.match.params;
+        if(category){
+            this.props.findAllByCategory(category);
+        }else{
+            this.props.findAllPosts();
+        }
     }
     onClickCategory(e){
         this.props.findAllByCategory(e);

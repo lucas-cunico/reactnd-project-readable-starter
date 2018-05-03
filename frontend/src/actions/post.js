@@ -1,6 +1,10 @@
+import swal from 'sweetalert';
+import {push} from 'react-router-redux';
 const uuidv1 = require('uuid/v1');
 export const SET_POSTS = 'SET_POSTS';
 export const SET_POST = 'SET_POST';
+export const DELETE_POST = 'DELETE_POST';
+
 
 export function findAll() {
     return async (dispatch) => {
@@ -67,6 +71,36 @@ export function upOrDownVote(upOrDown, id) {
         dispatch({
             type: SET_POST,
             post: json
+        });
+    }
+}
+
+export function deletePost(id) {
+    return (dispatch) => {
+        swal({
+            title: "Are you sure?",
+            text: "Delete this post!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                fetch(`http://localhost:3001/posts/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'whatever-i-want'
+                    }
+                }).then(() => {
+                    dispatch({
+                        type: DELETE_POST,
+                        id
+                    });
+                    push("/");
+                    swal("Deleted!", {
+                        icon: "success",
+                    });
+                });
+            }
         });
     }
 }
