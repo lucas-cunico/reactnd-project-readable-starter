@@ -18,6 +18,19 @@ export function findAll() {
         });
     }
 }
+
+export function find(id) {
+    return async (dispatch) => {
+        const response = await fetch(`http://localhost:3001/posts/${id}`, {
+            headers: {'Authorization': 'whatever-i-want'}
+        });
+        const json = await response.json();
+        dispatch({
+            type: SET_POST,
+            post: json
+        });
+    }
+}
 export function findAllByCategory(categoryName) {
     return async (dispatch) => {
         const response = await fetch(`http://localhost:3001/${categoryName}/posts`, {
@@ -52,6 +65,10 @@ export function saveOrUpdate(post) {
         dispatch({
             type: SET_POST,
             post: json
+        });
+        push('/');
+        swal("Created!", {
+            icon: "success",
         });
     }
 }

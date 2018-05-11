@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import * as postActions from '../actions/post';
 import VoteScore from './VoteScore';
 
-class PostCard extends Component {
-    static propTypes = {
-        post: PropTypes.object.isRequired
-    };
+class DetailsPost extends Component {
+
+    componentDidMount(){
+        const {id} = this.props.match.params;
+        this.props.find(id);
+    }
 
     onDelete(id){
         this.props.deletePost(id);
@@ -26,9 +27,9 @@ class PostCard extends Component {
                     <div className="col-md-11">
                         <div className="col-md-12">
                             <h5 className="card-title"><Link to={`/${category}/${id}`}>{title}</Link></h5>
-                        <p className="card-text">
-                            <small className="text-muted">{author} in <small className="text-primary">{category}</small></small>
-                        </p>
+                            <p className="card-text">
+                                <small className="text-muted">{author} in <small className="text-primary">{category}</small></small>
+                            </p>
                         </div>
                         <hr/>
                         <div className="col-md-12">
@@ -46,10 +47,17 @@ class PostCard extends Component {
     }
 }
 
-function mapDispatch(dispatch) {
+function mapState(state) {
+    const {post} = state.post;
     return {
-        deletePost: (id) => dispatch(postActions.deletePost(id))
+        post
     }
 }
 
-export default connect(null, mapDispatch)(PostCard);
+function mapDispatch(dispatch) {
+    return {
+        find: (id) => dispatch(postActions.find(id))
+    }
+}
+
+export default connect(mapState, mapDispatch)(DetailsPost);

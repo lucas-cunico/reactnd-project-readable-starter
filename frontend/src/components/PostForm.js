@@ -5,32 +5,17 @@ import * as postActions  from '../actions/post';
 import serializeForm from 'form-serialize';
 
 class PostForm extends Component {
-    state = {
-        visible: 'd-none'
-    };
 
-    changeVisibility() {
-        const {visible} = this.state;
-        if (visible === 'd-none') {
-            this.setState({visible: 'd-block'})
-        } else {
-            this.setState({visible: 'd-none'})
-        }
-    }
     onSubmit(e){
         e.preventDefault();
         const post = serializeForm(e.target, {hash: true});
-        this.props.saveOrUpdate(post);
+        //this.props.saveOrUpdate(post);
     }
 
     render() {
         return <div className="col-sm-12 padding-card">
-            <div className="card">
-                <div className="card-header pointer d-transition" onClick={this.changeVisibility.bind(this)}>
-                    Post
-                </div>
-                <div className={`card-body ${this.state.visible}`}>
                     <form onSubmit={this.onSubmit.bind(this)}>
+                        <div className="modal-body">
                         <div className="form-group">
                             <label htmlFor="title">Title</label>
                             <input type="text" className="form-control" id="title" name="title"
@@ -50,16 +35,13 @@ class PostForm extends Component {
                             <label htmlFor="category">Category</label>
                             <CategorySelect id='category' name='category'/>
                         </div>
-                        <button type="submit" className="btn btn-primary">Submit</button>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" className="btn btn-primary">Save changes</button>
+                        </div>
                     </form>
-                </div>
-            </div>
         </div>
-    }
-}
-
-function mapState(state) {
-    return {
     }
 }
 
@@ -69,4 +51,4 @@ function mapDispatch(dispatch) {
     }
 }
 
-export default connect(mapState, mapDispatch)(PostForm);
+export default connect(null, mapDispatch)(PostForm);

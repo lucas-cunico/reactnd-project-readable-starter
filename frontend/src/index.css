@@ -11,3 +11,8 @@ body {
 .padding-card {
   padding: 20px 20px 0;
 }
+
+.btn-bottom-align {
+  position: absolute;
+  bottom: 0;
+}
