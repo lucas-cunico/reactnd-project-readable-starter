@@ -25,9 +25,13 @@ class VoteScore extends Component {
 
 
     componentDidMount() {
-        console.log(this.props.post);
         this.setState({voteScore: this.props.post.voteScore});
+    }
 
+    componentDidUpdate() {
+        if(this.props.post.voteScore !== this.state.voteScore){
+            this.setState({voteScore: this.props.post.voteScore});
+        }
     }
 
     render() {

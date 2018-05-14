@@ -66,7 +66,6 @@ export function saveOrUpdate(post) {
             type: SET_POST,
             post: json
         });
-        push('/');
         swal("Created!", {
             icon: "success",
         });

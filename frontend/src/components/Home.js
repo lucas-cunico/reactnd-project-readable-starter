@@ -8,8 +8,10 @@ import ModalPost from './ModalPost';
 
 class Home extends Component {
     state = {
-      orderBy : "date"
+        orderBy: "date",
+        posts: []
     };
+
     componentDidMount() {
         this.props.findAllCategories();
         const {category} = this.props.match.params;
@@ -20,15 +22,24 @@ class Home extends Component {
         }
     }
 
+    componentWillReceiveProps (props) {
+        const {posts} = props;
+        if (posts !== this.state.posts) {
+            this.setState({posts});
+        }
+    }
+
     onClickCategory(e) {
         this.props.findAllByCategory(e);
     }
-    changeOrder(e){
+
+    changeOrder(e) {
         this.setState({orderBy: e});
     }
 
     render() {
-        const {categories, posts} = this.props;
+        const {categories} = this.props;
+        const {posts} = this.state;
         return <div className="">
             <nav className="navbar navbar-light bg-light">
             </nav>
@@ -57,7 +68,7 @@ class Home extends Component {
                 </div>
                 <div className="row">
                     {posts.sort((a, b) => {
-                        if(this.state.orderBy === "date"){
+                        if (this.state.orderBy === "date") {
                             return a.timestamp < b.timestamp
                         }
                         return a.voteScore < b.voteScore

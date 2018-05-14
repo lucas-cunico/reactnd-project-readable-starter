@@ -2,16 +2,28 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as postActions from '../actions/post';
 import PostForm from './PostForm';
+import serializeForm from 'form-serialize';
+import {findDOMNode} from 'react-dom';
+import $ from 'jquery';
 
 class ModalPost extends Component {
+    onSubmit(e) {
+        e.preventDefault();
+        const post = serializeForm(e.target, {hash: true});
+        const mod = findDOMNode(this.refs.modalPost);
+        this.props.saveOrUpdate(post);
+        $(mod).modal('hide');
+    }
 
     render() {
         return (
             <div>
-                <button type="button" className="btn btn-primary btn-lg btn-bottom-align" data-toggle="modal" data-target="#post">
+                <button type="button" className="btn btn-primary btn-lg btn-bottom-align" data-toggle="modal"
+                        data-target="#post">
                     New Post
                 </button>
-                <div className="modal fade" id="post" role="dialog" aria-labelledby="postModalLabel" aria-hidden="true">
+                <div className="modal fade" id="post" ref="modalPost" role="dialog" aria-labelledby="postModalLabel"
+                     aria-hidden="true">
                     <div className="modal-dialog" role="document">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -20,7 +32,7 @@ class ModalPost extends Component {
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                                <PostForm/>
+                            <PostForm onSubmit={this.onSubmit.bind(this)}/>
                         </div>
                     </div>
                 </div>
