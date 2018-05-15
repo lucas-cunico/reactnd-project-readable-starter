@@ -52,22 +52,40 @@ export function saveOrUpdate(post) {
         post.id = uuidv1();
     }
     return async (dispatch) => {
-        const response = await fetch(`http://localhost:3001/posts`, {
-            method: 'POST',
-            body: JSON.stringify(post),
-            headers: {
-                'Authorization': 'whatever-i-want',
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            }
-        });
+        let response;
+        if(!post.id){
+            post.id = uuidv1();
+            response = await fetch(`http://localhost:3001/posts`, {
+                method: 'POST',
+                body: JSON.stringify(post),
+                headers: {
+                    'Authorization': 'whatever-i-want',
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+            swal("Created!", {
+                icon: "success",
+            });
+        }else{
+            response = await fetch(`http://localhost:3001/posts/${post.id}`, {
+                method: 'PUT',
+                body: JSON.stringify(post),
+                headers: {
+                    'Authorization': 'whatever-i-want',
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+            swal("Updated!", {
+                icon: "success",
+            });
+        }
+
         const json = await response.json();
         dispatch({
             type: SET_POST,
             post: json
-        });
-        swal("Created!", {
-            icon: "success",
         });
     }
 }
@@ -111,7 +129,6 @@ export function deletePost(id) {
                         type: DELETE_POST,
                         id
                     });
-                    push("/");
                     swal("Deleted!", {
                         icon: "success",
                     });

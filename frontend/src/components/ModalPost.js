@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import * as postActions from '../actions/post';
 import PostForm from './PostForm';
@@ -7,6 +8,11 @@ import {findDOMNode} from 'react-dom';
 import $ from 'jquery';
 
 class ModalPost extends Component {
+    static propTypes = {
+        id: PropTypes.string.isRequired,
+        post: PropTypes.object
+    };
+
     onSubmit(e) {
         e.preventDefault();
         const post = serializeForm(e.target, {hash: true});
@@ -16,28 +22,21 @@ class ModalPost extends Component {
     }
 
     render() {
-        return (
-            <div>
-                <button type="button" className="btn btn-primary btn-lg btn-bottom-align" data-toggle="modal"
-                        data-target="#post">
-                    New Post
-                </button>
-                <div className="modal fade" id="post" ref="modalPost" role="dialog" aria-labelledby="postModalLabel"
-                     aria-hidden="true">
-                    <div className="modal-dialog" role="document">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="postModalLabel">New post</h5>
-                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <PostForm onSubmit={this.onSubmit.bind(this)}/>
-                        </div>
+        const {id, post} = this.props;
+        return <div className="modal fade" ref="modalPost" id={id} role="dialog" aria-labelledby="postModalLabel"
+                    aria-hidden="true">
+            <div className="modal-dialog" role="document">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title" id="postModalLabel">{post != null ? "Edit post":"New post"}</h5>
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
+                    <PostForm post={post} onSubmit={this.onSubmit.bind(this)}/>
                 </div>
             </div>
-        )
+        </div>
     }
 }
 

@@ -1,10 +1,16 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
 class CategorySelect extends Component {
+    static propTypes = {
+        name: PropTypes.string.isRequired,
+        defaultValue: PropTypes.string
+    };
+
     render() {
-        const {categories, name, id} = this.props;
-        return <select className="form-control" id={id} name={name}>
+        const {categories, name, defaultValue} = this.props;
+        return <select className="form-control" name={name} defaultValue={defaultValue}>
             {categories.map((category, index) => {
                 return <option key={index}>{category.name}</option>
             })}
@@ -18,4 +24,5 @@ function mapState(state) {
         categories
     }
 }
+
 export default connect(mapState)(CategorySelect);

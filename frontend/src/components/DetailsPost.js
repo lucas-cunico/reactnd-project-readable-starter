@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import * as postActions from '../actions/post';
-import VoteScore from './VoteScore';
+import PostVoteScore from './PostVoteScore';
 import Comments from './Comments';
 
 class DetailsPost extends Component {
@@ -37,7 +37,7 @@ class DetailsPost extends Component {
                     </div>
                     <hr/>
                     <div className="col-md-1">
-                        <VoteScore post={post}/>
+                        <PostVoteScore post={post}/>
                     </div>
                     <div className="col-md-11">
                         <div className="col-md-12">

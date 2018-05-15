@@ -25,8 +25,11 @@ class Comments extends Component {
 }
 
 function mapState(state) {
+    //{comment} "hack" used to comparassion
+    const {comments, comment} = state.comment;
     return {
-        comments: state.comment.comments
+        comments,
+        comment
     }
 }
 function mapDispatch(dispatch) {

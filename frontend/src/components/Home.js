@@ -8,8 +8,7 @@ import ModalPost from './ModalPost';
 
 class Home extends Component {
     state = {
-        orderBy: "date",
-        posts: []
+        orderBy: "date"
     };
 
     componentDidMount() {
@@ -22,13 +21,6 @@ class Home extends Component {
         }
     }
 
-    componentWillReceiveProps (props) {
-        const {posts} = props;
-        if (posts !== this.state.posts) {
-            this.setState({posts});
-        }
-    }
-
     onClickCategory(e) {
         this.props.findAllByCategory(e);
     }
@@ -38,8 +30,7 @@ class Home extends Component {
     }
 
     render() {
-        const {categories} = this.props;
-        const {posts} = this.state;
+        const {categories, posts} = this.props;
         return <div className="">
             <nav className="navbar navbar-light bg-light">
             </nav>
@@ -52,7 +43,11 @@ class Home extends Component {
                 </div>
                 <div className="row padding-card">
                     <div className="col-sm-3">
-                        <ModalPost/>
+                        <button type="button" className="btn btn-primary btn-lg btn-bottom-align" data-toggle="modal"
+                                data-target="#post">
+                            New Post
+                        </button>
+                        <ModalPost id="post"/>
                     </div>
                     <div className="col-sm-3">
                     </div>
@@ -83,10 +78,11 @@ class Home extends Component {
 
 function mapState(state) {
     const {categories} = state.category;
-    const {posts} = state.post;
+    const {posts, post} = state.post;
     return {
         categories,
-        posts
+        posts,
+        post
     }
 }
 

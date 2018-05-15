@@ -4,27 +4,30 @@ import CategorySelect from './CategorySelect';
 export default class PostForm extends Component {
 
     render() {
+        const {post} = this.props;
         return <div className="col-sm-12 padding-card">
             <form onSubmit={this.props.onSubmit.bind(this)}>
                 <div className="modal-body">
+                    <input type="hidden" name="id" defaultValue={post ? post.id : null} />
+                    <input type="hidden" name="timestamp" defaultValue={post ? post.timestamp : null} />
                     <div className="form-group">
                         <label htmlFor="title">Title</label>
-                        <input type="text" className="form-control" id="title" name="title"
-                               aria-describedby="title" placeholder="Title" required/>
+                        <input type="text" className="form-control" name="title"
+                               aria-describedby="title" placeholder="Title" defaultValue={post ? post.title : ""} required/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="body">Body</label>
-                        <input type="body" className="form-control" id="body" name="body"
-                               aria-describedby="body" placeholder="Body" required/>
+                        <input type="body" className="form-control" name="body"
+                               aria-describedby="body" placeholder="Body" defaultValue={post ? post.body : ""} required/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="author">Author</label>
-                        <input type="author" className="form-control" id="author" name="author"
-                               aria-describedby="author" placeholder="Author" required/>
+                        <input type="author" className="form-control" name="author"
+                               aria-describedby="author" placeholder="Author" defaultValue={post ? post.author : ""} required/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="category">Category</label>
-                        <CategorySelect id='category' name='category'/>
+                        <CategorySelect name='category' defaultValue={post ? post.category : ""}/>
                     </div>
                 </div>
                 <div className="modal-footer">

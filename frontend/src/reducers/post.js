@@ -6,6 +6,7 @@ const initialState = {
         author: "",
         category: "",
         commentCount: 0,
+        voteScore: 0,
         id: "",
     }
 };

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import * as commentActions from '../actions/comment';
-import VoteScore from './VoteScore';
+import CommentVoteScore from './CommentVoteScore';
 
 class Comment extends Component {
     static propTypes = {
@@ -33,7 +33,7 @@ class Comment extends Component {
                         </div>
                         <hr/>
                         <div className="col-md-1">
-                            <VoteScore post={comment}/>
+                            <CommentVoteScore comment={comment}/>
                         </div>
                         <div className="col-md-11">
                             <div className="col-md-12">
