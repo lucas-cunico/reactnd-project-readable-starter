@@ -1,4 +1,4 @@
-import {SET_COMMENTS, SET_COMMENT} from '../actions/comment';
+import {SET_COMMENTS, SET_COMMENT, DELETE_COMMENT} from '../actions/comment';
 const initialState = {
     comments: [],
     comment: {
@@ -28,6 +28,9 @@ export default (state = initialState, payload) => {
                 newComments.push(comment)
             }
             return {...state, ...{comments: newComments}, ...{comment}};
+        case DELETE_COMMENT:
+            const {id} = payload;
+            return {...state, ...{comments: state.comments.filter(e => e.id !== id)}};
         default:
             return state;
     }

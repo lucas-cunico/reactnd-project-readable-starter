@@ -5,6 +5,7 @@ const initialState = {
         title: "",
         author: "",
         category: "",
+        body: "",
         commentCount: 0,
         voteScore: 0,
         id: "",

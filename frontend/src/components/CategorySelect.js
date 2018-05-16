@@ -1,12 +1,17 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import * as categoryActions from '../actions/category';
 
 class CategorySelect extends Component {
     static propTypes = {
         name: PropTypes.string.isRequired,
         defaultValue: PropTypes.string
     };
+
+    componentDidMount() {
+        this.props.findAllCategories();
+    }
 
     render() {
         const {categories, name, defaultValue} = this.props;
@@ -25,4 +30,10 @@ function mapState(state) {
     }
 }
 
-export default connect(mapState)(CategorySelect);
+function mapDispatch(dispatch) {
+    return {
+        findAllCategories: () => dispatch(categoryActions.findAll())
+    }
+}
+
+export default connect(mapState, mapDispatch)(CategorySelect);

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import * as commentActions from '../actions/comment';
 import CommentVoteScore from './CommentVoteScore';
+import ModalComment from './ModalComment'
 
 class Comment extends Component {
     static propTypes = {
@@ -19,7 +20,7 @@ class Comment extends Component {
 
     render() {
         const {comment} = this.props;
-        const {author, body, id} = comment;
+        const {author, body, id, parentId} = comment;
         return <React.Fragment>
             <div className="col-sm-12">
                 <div className="card">
@@ -27,8 +28,10 @@ class Comment extends Component {
                         <div className="col-md-12">
                             <button style={{float: 'right'}} className="btn badge-light fa fa-ellipsis-v" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"/>
                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a className="dropdown-item" href="" data-toggle="tooltip" title="Edit">Edit</a>
-                                <span onClick={this.onDelete.bind(this, id)} className="dropdown-item" href="" data-toggle="tooltip" title="Delete" style={{cursor: 'pointer'}}>Delete</span>
+                                <span className="dropdown-item"
+                                      style={{cursor: 'pointer'}} data-toggle="modal"
+                                      data-target={`#${id}`}>Edit</span>
+                                <span onClick={this.onDelete.bind(this, id)} className="dropdown-item" data-toggle="tooltip" title="Delete" style={{cursor: 'pointer'}}>Delete</span>
                             </div>
                         </div>
                         <hr/>
@@ -48,6 +51,7 @@ class Comment extends Component {
                     </div>
                 </div>
             </div>
+            <ModalComment comment={comment} postId={parentId} id={id}/>
         </React.Fragment>
     }
 }

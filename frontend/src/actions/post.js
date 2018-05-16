@@ -48,9 +48,6 @@ export function saveOrUpdate(post) {
     if(!post.timestamp){
         post.timestamp = Date.now();
     }
-    if(!post.id){
-        post.id = uuidv1();
-    }
     return async (dispatch) => {
         let response;
         if(!post.id){

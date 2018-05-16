@@ -42,7 +42,6 @@ class PostCard extends Component {
                                         aria-haspopup="true" aria-expanded="false"/>
                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <span className="dropdown-item"
-                                          data-id={id}
                                           style={{cursor: 'pointer'}} data-toggle="modal"
                                           data-target={`#${id}`}>Edit</span>
                                     <span onClick={this.onDelete.bind(this, id)} className="dropdown-item"

@@ -66,3 +66,46 @@ export function upOrDownVote(upOrDown, id) {
         });
     }
 }
+
+export function saveOrUpdate(comment) {
+    if(!comment.timestamp){
+        comment.timestamp = Date.now();
+    }
+    return async (dispatch) => {
+        let response;
+        if(!comment.id){
+            comment.id = uuidv1();
+            response = await fetch(`http://localhost:3001/comments`, {
+                method: 'POST',
+                body: JSON.stringify(comment),
+                headers: {
+                    'Authorization': 'whatever-i-want',
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+            swal("Created!", {
+                icon: "success",
+            });
+        }else{
+            response = await fetch(`http://localhost:3001/comments/${comment.id}`, {
+                method: 'PUT',
+                body: JSON.stringify(comment),
+                headers: {
+                    'Authorization': 'whatever-i-want',
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+            swal("Updated!", {
+                icon: "success",
+            });
+        }
+
+        const json = await response.json();
+        dispatch({
+            type: SET_COMMENT,
+            comment: json
+        });
+    }
+}
