@@ -24,7 +24,7 @@ export default class PostForm extends Component {
     }
     componentDidMount() {
         let {post} = this.props;
-        if(post != null && this.state.post != post ){
+        if(post !== undefined && this.state.post !== post ){
             this.setState({post});
         }
     }

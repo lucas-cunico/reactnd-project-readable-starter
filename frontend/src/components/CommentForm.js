@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import CategorySelect from './CategorySelect';
 import PropTypes from 'prop-types';
 
 export default class CommentForm extends Component {
@@ -24,7 +23,7 @@ export default class CommentForm extends Component {
     }
     componentDidMount() {
         let {comment} = this.props;
-        if(comment != null && this.state.comment != comment ){
+        if(comment !== undefined && this.state.comment !== comment ){
             this.setState({comment});
         }
     }

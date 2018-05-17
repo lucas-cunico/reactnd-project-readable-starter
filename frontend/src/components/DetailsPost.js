@@ -6,6 +6,7 @@ import PostVoteScore from './PostVoteScore';
 import Comments from './Comments';
 import ModalPost from './ModalPost';
 import ModalComment from './ModalComment';
+import NotFound from './../components/NotFound';
 
 class DetailsPost extends Component {
 
@@ -21,6 +22,10 @@ class DetailsPost extends Component {
     render() {
         const {post} = this.props;
         const postId = this.props.match.params.id;
+
+        if(Object.keys(post).length === 0){
+            return <NotFound/>
+        }
         const {title, author, category, body, id} = post;
         return <React.Fragment>
             <div className="col-sm-12 padding-card">

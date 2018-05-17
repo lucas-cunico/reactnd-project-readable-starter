@@ -1,13 +1,6 @@
 import {SET_CATEGORIES} from '../actions/category';
 const initialState = {
-    categories: [],
-    category: {
-        author: "",
-        body: "",
-        voteScore: 0,
-        id: "",
-        parentId: ""
-    }
+    categories: []
 };
 export default (state = initialState, payload) => {
     switch (payload.type) {

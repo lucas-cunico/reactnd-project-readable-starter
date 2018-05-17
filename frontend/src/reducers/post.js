@@ -1,15 +1,7 @@
 import {SET_POSTS, SET_POST, DELETE_POST} from '../actions/post';
 const initialState = {
     posts: [],
-    post: {
-        title: "",
-        author: "",
-        category: "",
-        body: "",
-        commentCount: 0,
-        voteScore: 0,
-        id: "",
-    }
+    post: {}
 };
 export default (state = initialState, payload) => {
     switch (payload.type) {

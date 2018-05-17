@@ -1,6 +1,4 @@
 import swal from 'sweetalert';
-import {push} from 'react-router-redux';
-
 const uuidv1 = require('uuid/v1');
 export const SET_COMMENTS = 'SET_COMMENTS';
 export const SET_COMMENT = 'SET_COMMENT';
@@ -68,14 +66,13 @@ export function upOrDownVote(upOrDown, id) {
 }
 
 export function saveOrUpdate(comment) {
-    if(!comment.timestamp){
+    if (!comment.timestamp) {
         comment.timestamp = Date.now();
     }
     return async (dispatch) => {
-        let response;
-        if(!comment.id){
+        if (!comment.id) {
             comment.id = uuidv1();
-            response = await fetch(`http://localhost:3001/comments`, {
+            fetch(`http://localhost:3001/comments`, {
                 method: 'POST',
                 body: JSON.stringify(comment),
                 headers: {
@@ -83,12 +80,17 @@ export function saveOrUpdate(comment) {
                     Accept: 'application/json',
                     'Content-Type': 'application/json'
                 }
+            }).then((response) => response.json()).then((json) => {
+                dispatch({
+                    type: SET_COMMENT,
+                    comment: json
+                });
+                swal("Created!", {
+                    icon: "success",
+                });
             });
-            swal("Created!", {
-                icon: "success",
-            });
-        }else{
-            response = await fetch(`http://localhost:3001/comments/${comment.id}`, {
+        } else {
+            fetch(`http://localhost:3001/comments/${comment.id}`, {
                 method: 'PUT',
                 body: JSON.stringify(comment),
                 headers: {
@@ -96,16 +98,15 @@ export function saveOrUpdate(comment) {
                     Accept: 'application/json',
                     'Content-Type': 'application/json'
                 }
-            });
-            swal("Updated!", {
-                icon: "success",
+            }).then((response) => response.json()).then((json) => {
+                dispatch({
+                    type: SET_COMMENT,
+                    comment: json
+                });
+                swal("Updated!", {
+                    icon: "success",
+                });
             });
         }
-
-        const json = await response.json();
-        dispatch({
-            type: SET_COMMENT,
-            comment: json
-        });
     }
 }

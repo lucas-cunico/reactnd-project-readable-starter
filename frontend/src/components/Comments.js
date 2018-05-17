@@ -17,7 +17,7 @@ class Comments extends Component {
         const {comments} = this.props;
         return <React.Fragment>
             <div className="col-sm-12">
-                {comments.length > 0 ? <h5>Comments</h5> : null}
+                {comments.length > 0 ? <h5>{comments.length} Comments</h5> : null}
             </div>
             {comments.map(comment => <Comment key={comment.id} comment={comment}/>)}
         </React.Fragment>

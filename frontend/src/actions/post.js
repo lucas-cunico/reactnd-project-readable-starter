@@ -1,5 +1,6 @@
 import swal from 'sweetalert';
 import {push} from 'react-router-redux';
+
 const uuidv1 = require('uuid/v1');
 export const SET_POSTS = 'SET_POSTS';
 export const SET_POST = 'SET_POST';
@@ -21,16 +22,21 @@ export function findAll() {
 
 export function find(id) {
     return async (dispatch) => {
-        const response = await fetch(`http://localhost:3001/posts/${id}`, {
+        fetch(`http://localhost:3001/posts/${id}`, {
             headers: {'Authorization': 'whatever-i-want'}
-        });
-        const json = await response.json();
-        dispatch({
-            type: SET_POST,
-            post: json
+        }).then((response) => {
+            if (response.status === 200) {
+                response.json().then((json) => {
+                    dispatch({
+                        type: SET_POST,
+                        post: json
+                    });
+                })
+            }
         });
     }
 }
+
 export function findAllByCategory(categoryName) {
     return async (dispatch) => {
         const response = await fetch(`http://localhost:3001/${categoryName}/posts`, {
@@ -45,14 +51,13 @@ export function findAllByCategory(categoryName) {
 }
 
 export function saveOrUpdate(post) {
-    if(!post.timestamp){
+    if (!post.timestamp) {
         post.timestamp = Date.now();
     }
     return async (dispatch) => {
-        let response;
-        if(!post.id){
+        if (!post.id) {
             post.id = uuidv1();
-            response = await fetch(`http://localhost:3001/posts`, {
+            fetch(`http://localhost:3001/posts`, {
                 method: 'POST',
                 body: JSON.stringify(post),
                 headers: {
@@ -60,12 +65,18 @@ export function saveOrUpdate(post) {
                     Accept: 'application/json',
                     'Content-Type': 'application/json'
                 }
+            }).then((response) => response.json()).then((json) => {
+                dispatch({
+                    type: SET_POST,
+                    post: json
+                });
+                swal("Created!", {
+                    icon: "success",
+                });
             });
-            swal("Created!", {
-                icon: "success",
-            });
-        }else{
-            response = await fetch(`http://localhost:3001/posts/${post.id}`, {
+
+        } else {
+            fetch(`http://localhost:3001/posts/${post.id}`, {
                 method: 'PUT',
                 body: JSON.stringify(post),
                 headers: {
@@ -73,17 +84,17 @@ export function saveOrUpdate(post) {
                     Accept: 'application/json',
                     'Content-Type': 'application/json'
                 }
+            }).then((response) => response.json()).then((json) => {
+                dispatch({
+                    type: SET_POST,
+                    post: json
+                });
+                swal("Updated!", {
+                    icon: "success",
+                });
             });
-            swal("Updated!", {
-                icon: "success",
-            });
-        }
 
-        const json = await response.json();
-        dispatch({
-            type: SET_POST,
-            post: json
-        });
+        }
     }
 }
 
@@ -129,7 +140,7 @@ export function deletePost(id) {
                     swal("Deleted!", {
                         icon: "success",
                     });
-                });
+                }).then(() => push('/'));
             }
         });
     }

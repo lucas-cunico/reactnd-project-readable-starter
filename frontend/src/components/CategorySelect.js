@@ -6,7 +6,8 @@ import * as categoryActions from '../actions/category';
 class CategorySelect extends Component {
     static propTypes = {
         name: PropTypes.string.isRequired,
-        defaultValue: PropTypes.string
+        value: PropTypes.string.isRequired,
+        onChange: PropTypes.func.isRequired
     };
 
     componentDidMount() {
@@ -14,8 +15,8 @@ class CategorySelect extends Component {
     }
 
     render() {
-        const {categories, name, defaultValue} = this.props;
-        return <select className="form-control" name={name} defaultValue={defaultValue}>
+        const {categories, name, value, onChange} = this.props;
+        return <select className="form-control" name={name} value={value} onChange={onChange}>
             {categories.map((category, index) => {
                 return <option key={index}>{category.name}</option>
             })}

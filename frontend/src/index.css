@@ -1,18 +1,32 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
 }
 
 .pointer {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .padding-card {
-  padding: 20px 20px 0;
+    padding: 20px 20px 0;
 }
 
 .btn-bottom-align {
-  position: absolute;
-  bottom: 0;
+    position: absolute;
+    bottom: 0;
+}
+
+.error-template {
+    padding: 40px 15px;
+    text-align: center;
+}
+
+.error-actions {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.error-actions .btn {
+    margin-right: 10px;
 }

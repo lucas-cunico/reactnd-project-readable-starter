@@ -5,24 +5,24 @@ import * as postActions from '../actions/post';
 import CategoryCard from './CategoryCard';
 import PostCard from './PostCard';
 import ModalPost from './ModalPost';
+import {Link} from 'react-router-dom';
 
 class Home extends Component {
     state = {
-        orderBy: "date"
+        orderBy: "date",
+        category: ""
     };
 
     componentDidMount() {
         this.props.findAllCategories();
+        this.props.findAllPosts();
+
         const {category} = this.props.match.params;
-        if (category) {
-            this.props.findAllByCategory(category);
-        } else {
-            this.props.findAllPosts();
-        }
+        this.setState({category: category ? category : ""});
     }
 
-    onClickCategory(e) {
-        this.props.findAllByCategory(e);
+    onClickCategory(category) {
+        this.setState({category});
     }
 
     changeOrder(e) {
@@ -31,8 +31,11 @@ class Home extends Component {
 
     render() {
         const {categories, posts} = this.props;
-        return <div className="">
-            <nav className="navbar navbar-light bg-light">
+        return <div className="col-sm-12 padding-card">
+            <nav aria-label="breadcrumb">
+                <ol className="breadcrumb">
+                    <li className="breadcrumb-item"><Link to="/" onClick={()=> this.setState({category: ""})}>Home</Link></li>
+                </ol>
             </nav>
             <div className="container">
                 <div className="row">
@@ -62,7 +65,7 @@ class Home extends Component {
                     </div>
                 </div>
                 <div className="row">
-                    {posts.sort((a, b) => {
+                    {posts.filter((post) => this.state.category === "" || post.category === this.state.category).sort((a, b) => {
                         if (this.state.orderBy === "date") {
                             return a.timestamp < b.timestamp
                         }
