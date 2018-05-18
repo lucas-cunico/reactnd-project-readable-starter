@@ -7,6 +7,7 @@ import Comments from './Comments';
 import ModalPost from './ModalPost';
 import ModalComment from './ModalComment';
 import NotFound from './../components/NotFound';
+import CategoryCard from './CategoryCard';
 
 class DetailsPost extends Component {
 
@@ -16,11 +17,11 @@ class DetailsPost extends Component {
     }
 
     onDelete(id) {
-        this.props.deletePost(id);
+        this.props.deletePost(id, this.props.history);
     }
 
     render() {
-        const {post} = this.props;
+        const {post, categories} = this.props;
         const postId = this.props.match.params.id;
 
         if(Object.keys(post).length === 0){
@@ -34,6 +35,14 @@ class DetailsPost extends Component {
                         <li className="breadcrumb-item"><Link to="/">Home</Link></li>
                     </ol>
                 </nav>
+                <div className="container">
+                    <div className="row">
+                        {categories.map((category) => {
+                            return <CategoryCard category={category} key={category.name} />
+                        })}
+                    </div>
+                </div>
+                <br/>
                 <div className="card">
                     <div className="card-body row">
                         <div className="col-md-12">
@@ -89,15 +98,17 @@ class DetailsPost extends Component {
 
 function mapState(state) {
     const {post} = state.post;
+    const {categories} = state.category;
     return {
-        post
+        post,
+        categories
     }
 }
 
 function mapDispatch(dispatch) {
     return {
         find: (id) => dispatch(postActions.find(id)),
-        deletePost: (id) => dispatch(postActions.deletePost(id))
+        deletePost: (id, history) => dispatch(postActions.deletePost(id, history))
     }
 }
 

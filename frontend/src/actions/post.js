@@ -1,6 +1,4 @@
 import swal from 'sweetalert';
-import {push} from 'react-router-redux';
-
 const uuidv1 = require('uuid/v1');
 export const SET_POSTS = 'SET_POSTS';
 export const SET_POST = 'SET_POST';
@@ -117,7 +115,7 @@ export function upOrDownVote(upOrDown, id) {
     }
 }
 
-export function deletePost(id) {
+export function deletePost(id, history) {
     return (dispatch) => {
         swal({
             title: "Are you sure?",
@@ -140,7 +138,10 @@ export function deletePost(id) {
                     swal("Deleted!", {
                         icon: "success",
                     });
-                }).then(() => push('/'));
+                    if(history){
+                        history.push('/');
+                    }
+                });
             }
         });
     }

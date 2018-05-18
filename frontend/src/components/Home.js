@@ -21,10 +21,6 @@ class Home extends Component {
         this.setState({category: category ? category : ""});
     }
 
-    onClickCategory(category) {
-        this.setState({category});
-    }
-
     changeOrder(e) {
         this.setState({orderBy: e});
     }
@@ -34,14 +30,15 @@ class Home extends Component {
         return <div className="col-sm-12 padding-card">
             <nav aria-label="breadcrumb">
                 <ol className="breadcrumb">
-                    <li className="breadcrumb-item"><Link to="/" onClick={()=> this.setState({category: ""})}>Home</Link></li>
+                    <li className="breadcrumb-item"><Link to="/"
+                                                          onClick={() => this.setState({category: ""})}>Home</Link></li>
                 </ol>
             </nav>
             <div className="container">
                 <div className="row">
                     {categories.map((category) => {
                         return <CategoryCard category={category} key={category.name}
-                                             onClick={this.onClickCategory.bind(this)}/>
+                                             onClick={() => this.setState({category: category.name})}/>
                     })}
                 </div>
                 <div className="row padding-card">
